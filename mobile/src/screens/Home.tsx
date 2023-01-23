@@ -1,21 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { Text, View, ScrollView, Alert } from "react-native";
 
 import { api } from '../lib/axios';
 import { generateRangeDatesFromYearStart} from '../utils/generate-range-between-dates';
 
-
 import { HabitDay, DAY_SIZE } from "../components/HabitDay";
 import { Header } from "../components/Header";
 import { Loading } from "../components/Loading";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import dayjs from 'dayjs';
 
 const weekDays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 const datesFromYearStart = generateRangeDatesFromYearStart();
 const minimunSummaryDatesSizes = 18 * 5;
 const ammountOfDaysToFill = minimunSummaryDatesSizes - datesFromYearStart.length;
-
 
 type SummaryProps = Array<{
     id: string;
@@ -43,9 +41,9 @@ export function Home(){
         }
     }
 
-    useEffect(()=>{
+    useFocusEffect(useCallback(()=>{
         fetchData();
-    }, []);
+    }, []));
 
     if(loading){
         return (
